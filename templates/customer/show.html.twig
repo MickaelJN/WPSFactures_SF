@@ -1,0 +1,8 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}{{ customer.displayName }}{% endblock %}
+
+{% block body %}
+<h1>{{ customer.displayName }}</h1>
+<a href="{{ path(name="customer.index") }}">Retour à la liste clients</a> 
+{% endblock %}

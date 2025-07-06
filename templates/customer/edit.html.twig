@@ -1,0 +1,14 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}{{ customer.displayName }} - EDIT{% endblock %}
+
+{% block body %}
+<h1>{{ customer.displayName }}</h1>
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">
+        <span class="submit-text">Envoyer</span>
+        <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+    </button>
+{{ form_end(form) }}
+{% endblock %}

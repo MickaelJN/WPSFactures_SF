@@ -1,0 +1,45 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}
+  Tous les clients
+{% endblock %}
+
+{% block body %}
+  <h1>Tous les clients</h1>
+  <div class="my-3">
+    <a href="{{ path('customer.create.individual') }}" class="btn btn-primary">Nouveau client particulier</a>
+    <a href="{{ path('customer.create.company') }}" class="btn btn-primary">Nouveau client entreprise</a>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for customer in customers %}
+        <tr>
+          <td>
+            <a href="{{ path(name='customer.show', parameters={ id: customer.id }) }}">
+              {{ customer.displayName }}
+            </a>
+          </td>
+          <td>
+              test
+          </td>
+          <td>
+            <div class="d-flex gap-1">
+              <a class="btn btn-primary btn-sm" href="{{ path(name='customer.edit', parameters={ id: customer.id }) }}">Modifier</a>
+              <form action="{{ path('customer.delete', { id: customer.id }) }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE" />
+                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

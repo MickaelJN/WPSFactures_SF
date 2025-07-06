@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Individual;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+
+class CustomerIndividualForm extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('lastname', TextType::class, [
+                "required" => true,
+                "constraints" => new NotBlank()
+            ])
+            ->add('firstname', TextType::class, [
+                "required" => true,
+                "constraints" => new NotBlank()
+            ])
+            ->add('email')
+            ->add('address')
+            ->add('address2')
+            ->add('zipCode')
+            ->add('city')
+            ->add('country', CountryType::class, [
+                'data' => 'FR',
+            ])
+            ->add('phone')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Individual::class,
+        ]);
+    }
+}

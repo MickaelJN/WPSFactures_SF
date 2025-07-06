@@ -7,6 +7,7 @@ framework:
 
     #esi: true
     #fragments: true
+    http_method_override: true #methode permettant de modifier la method d'un formulaire grâce à un champ caché pour les form avec method DELETE
 
 when@test:
     framework:

@@ -5,12 +5,20 @@ services:
       context: .
       target: frankenphp_dev
     volumes:
-      - ./:/app
+      # On modifie la ligne principale pour ajouter ":cached" (meilleure perf sur Mac/Windows)
+      - ./:/app:cached
+      # On garde les volumes de configuration qui ne changent pas
       - ./frankenphp/Caddyfile:/etc/frankenphp/Caddyfile:ro
       - ./frankenphp/conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
-      # If you develop on Mac or Windows you can remove the vendor/ directory
-      #  from the bind-mount for better performance by enabling the next line:
-      #- /app/vendor
+      
+      # LIGNES AJOUTÉES : On utilise des volumes nommés pour le cache et les logs
+      # Le contenu de /app/var/cache et /app/var/log sera maintenant dans des volumes Docker rapides
+      - cache:/app/var/cache
+      - log:/app/var/log
+      
+      # La ligne ci-dessous devient moins nécessaire avec la technique des volumes nommés,
+      # qui est plus efficace, mais vous pouvez la laisser commentée.
+      # - /app/vendor
     environment:
       FRANKENPHP_WORKER_CONFIG: watch
       MERCURE_EXTRA_DIRECTIVES: demo
@@ -28,7 +36,7 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     ports:
-      - "5432"
+      - "5432:5432"
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
@@ -52,3 +60,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+
+# LIGNES AJOUTÉES : Déclaration des volumes nommés à la racine du fichier
+volumes:
+  cache:
+  log:
