@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Customer;
 
-use App\Repository\CompanyRepository;
+use App\Entity\Customer\Customer;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CompanyRepository;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 class Company extends Customer
@@ -57,5 +58,10 @@ class Company extends Customer
     public function getDisplayName(): string
     {
         return $this->companyName;
+    }
+
+    public function getType(): string
+    {
+        return "professionnel";
     }
 }

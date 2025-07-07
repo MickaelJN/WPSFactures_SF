@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Company;
+use App\Entity\Customer\Company;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;

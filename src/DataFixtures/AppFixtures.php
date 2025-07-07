@@ -3,9 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\Entity\Company;
-use App\Entity\Customer;
-use App\Entity\Individual;
+use App\Entity\Customer\Company;
+use App\Entity\Customer\Individual;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

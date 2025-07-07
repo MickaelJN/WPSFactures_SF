@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Customer;
 
-use App\Entity\Traits\TimestampableTrait;
-use App\Repository\CustomerRepository;
+use App\Entity\Customer\Company;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Customer\Individual;
+use App\Repository\CustomerRepository;
+use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -48,6 +50,11 @@ abstract class Customer
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
+
+    abstract public function getDisplayName(): string;
+    abstract public function getType(): string;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,18 +93,6 @@ abstract class Customer
     public function setAddress2(?string $address2): static
     {
         $this->address2 = $address2;
-
-        return $this;
-    }
-
-    public function getCompanyVatNumber(): ?string
-    {
-        return $this->companyVatNumber;
-    }
-
-    public function setCompanyVatNumber(?string $companyVatNumber): static
-    {
-        $this->companyVatNumber = $companyVatNumber;
 
         return $this;
     }
@@ -150,5 +145,4 @@ abstract class Customer
         return $this;
     }
 
-    abstract public function getDisplayName(): string;
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Customer;
 
-use App\Repository\IndividualRepository;
+use App\Entity\Customer\Customer;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\IndividualRepository;
 
 #[ORM\Entity(repositoryClass: IndividualRepository::class)]
 class Individual extends Customer
@@ -42,5 +43,10 @@ class Individual extends Customer
     public function getDisplayName(): string
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function getType(): string
+    {
+        return "particulier";
     }
 }

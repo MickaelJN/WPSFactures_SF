@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Company;
+use App\Entity\Customer\Company;
 use App\Entity\Customer;
-use App\Entity\Individual;
+use App\Entity\Customer\Individual;
 use App\Form\CustomerCompanyForm;
 use App\Form\CustomerIndividualForm;
 use App\Repository\CustomerRepository;
