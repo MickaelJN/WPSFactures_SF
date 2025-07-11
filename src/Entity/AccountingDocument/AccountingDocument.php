@@ -2,7 +2,9 @@
 
 namespace App\Entity\AccountingDocument;
 
+use App\DTO\CustomerDTO;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\Customer\Company;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Customer\Customer;
 use App\Entity\Traits\TimestampableTrait;
@@ -25,7 +27,7 @@ class AccountingDocument
     #[ORM\JoinColumn(nullable: false)]
     private ?Customer $customer = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 200, nullable: true)]
     private ?string $customerName = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -43,17 +45,58 @@ class AccountingDocument
     #[ORM\Column(length: 2, nullable: true)]
     private ?string $customerCountry = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $customerType = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $customerCompanyVatNumber = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $customerCompanyNumber = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalWithTax = null;
+    private ?string $totalWithTax = "0.00";
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $totalExcludeTax = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalExcludeTax = "0.00";
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $totalTax = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalTax = "0.00";
+
+
+    public function getDisplayCustomerData(): CustomerDTO
+    {
+        return new CustomerDTO(
+            id: $this->getCustomer()->getId(),
+            name: $this->getCustomerName(),
+            address: $this->getCustomerAddress(),
+            address2: $this->getCustomerAddress2(),
+            zipCode: $this->getCustomerZipCode(),
+            city: $this->getCustomerCity(),
+            country: $this->getCustomerCountry(),
+            type: $this->getCustomerType(),
+            vatNumber: $this->getCustomerCompanyVatNumber(),
+            number: $this->getCustomerCompanyNumber()
+        );
+    }
+
+    public function getCustomerDataFromRelation(): CustomerDTO
+    {
+        $customer = $this->getCustomer();
+        return new CustomerDTO(
+            id: $customer->getId(),
+            name: $customer->getDisplayName(),
+            address: $customer->getAddress(),
+            address2: $customer->getAddress2(),
+            zipCode: $customer->getZipCode(),
+            city: $customer->getCity(),
+            country: $customer->getCountry(),
+            type: $customer->getType(),
+            vatNumber:  $customer instanceof Company ? $customer->getCompanyVatNumber() : null,
+            number: $customer instanceof Company ? $customer->getCompanyNumber() : null
+        );
+    }
+
 
     public function getId(): ?int
     {
@@ -89,7 +132,7 @@ class AccountingDocument
         return $this->customerName;
     }
 
-    public function setCustomerName(string $customerName): static
+    public function setCustomerName(?string $customerName): static
     {
         $this->customerName = $customerName;
 
@@ -164,6 +207,30 @@ class AccountingDocument
     public function setCustomerType(string $customerType): static
     {
         $this->customerType = $customerType;
+
+        return $this;
+    }
+
+    public function getCustomerCompanyVatNumber(): ?string
+    {
+        return $this->customerCompanyVatNumber;
+    }
+
+    public function setCustomerCompanyVatNumber(?string $customerCompanyVatNumber): static
+    {
+        $this->customerCompanyVatNumber = $customerCompanyVatNumber;
+
+        return $this;
+    }
+
+    public function getCustomerCompanyNumber(): ?string
+    {
+        return $this->customerCompanyNumber;
+    }
+
+    public function setCustomerCompanyNumber(?string $customerCompanyNumber): static
+    {
+        $this->customerCompanyNumber = $customerCompanyNumber;
 
         return $this;
     }

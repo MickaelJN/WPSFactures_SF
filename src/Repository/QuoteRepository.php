@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Quote;
+use App\Entity\AccountingDocument\Quote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

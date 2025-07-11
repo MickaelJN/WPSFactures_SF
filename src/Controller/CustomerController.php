@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Customer\Company;
-use App\Entity\Customer;
+use App\Entity\Customer\Customer;
 use App\Entity\Customer\Individual;
 use App\Form\CustomerCompanyForm;
 use App\Form\CustomerIndividualForm;

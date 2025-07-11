@@ -2,9 +2,10 @@
 
 namespace App\Entity\Customer;
 
-use App\Entity\Customer\Customer;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Customer\Customer;
 use App\Repository\IndividualRepository;
+use App\Entity\AccountingDocument\AccountingDocument;
 
 #[ORM\Entity(repositoryClass: IndividualRepository::class)]
 class Individual extends Customer

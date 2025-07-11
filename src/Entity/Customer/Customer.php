@@ -2,6 +2,7 @@
 
 namespace App\Entity\Customer;
 
+use App\Entity\AccountingDocument\AccountingDocument;
 use App\Entity\Customer\Company;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Customer\Individual;
@@ -53,6 +54,18 @@ abstract class Customer
 
     abstract public function getDisplayName(): string;
     abstract public function getType(): string;
+
+    public function copyDataToDocument(AccountingDocument $document): void
+    {
+        $document->setCustomerName($this->getDisplayName());
+        $document->setCustomerAddress($this->getAddress());
+        $document->setCustomerAddress2($this->getAddress2());
+        $document->setCustomerZipCode($this->getZipCode());
+        $document->setCustomerCity($this->getCity());
+        $document->setCustomerCountry($this->getCountry());
+        $document->setCustomerCity($this->getCity());
+        $document->setCustomerType($this->getType());
+    }
 
 
     public function getId(): ?int

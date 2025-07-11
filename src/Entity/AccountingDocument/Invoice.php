@@ -2,7 +2,7 @@
 
 namespace App\Entity\AccountingDocument;
 
-use App\Entity\Quote;
+use App\Entity\AccountingDocument\Quote;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\InvoiceRepository;
@@ -56,4 +56,13 @@ class Invoice extends AccountingDocument
 
         return $this;
     }
+
+    /*public function getDisplayCustomerData(): CustomerDTO
+    {
+        if ($this->getStatus() === InvoiceStatus::Draft && $this->getCustomer()) {
+            return $this->getCustomerDataFromRelation();
+        }
+
+        return parent::getDisplayCustomerData();
+    }*/
 }

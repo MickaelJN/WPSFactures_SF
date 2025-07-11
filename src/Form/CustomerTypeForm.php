@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Customer;
+use App\Entity\Customer\Customer;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

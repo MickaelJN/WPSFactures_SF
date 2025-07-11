@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\AccountingDocument;
 
+use App\DTO\CustomerDTO;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuoteRepository;
 use App\Entity\AccountingDocument\Invoice;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\AccountingDocument\Enum\QuoteStatus;
 use App\Entity\AccountingDocument\AccountingDocument;
 
 #[ORM\Entity(repositoryClass: QuoteRepository::class)]
 class Quote extends AccountingDocument
 {
-    #[ORM\Column(length: 30)]
-    private ?string $status = null;
+    #[ORM\Column(type: 'string', length: 30, enumType: QuoteStatus::class)]
+    private QuoteStatus $status = QuoteStatus::Draft;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $expirationDate = null;
@@ -30,12 +32,12 @@ class Quote extends AccountingDocument
         $this->invoices = new ArrayCollection();
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?QuoteStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(QuoteStatus $status): static
     {
         $this->status = $status;
 
@@ -82,5 +84,14 @@ class Quote extends AccountingDocument
         }
 
         return $this;
+    }
+
+    public function getDisplayCustomerData(): CustomerDTO
+    {
+        if ($this->getStatus() === QuoteStatus::Draft && $this->getCustomer()) {
+            return $this->getCustomerDataFromRelation();
+        }
+
+        return parent::getDisplayCustomerData();
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Entity\Customer;
 
-use App\Entity\Customer\Customer;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Customer\Customer;
 use App\Repository\CompanyRepository;
+use App\Entity\AccountingDocument\AccountingDocument;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 class Company extends Customer
@@ -18,6 +19,13 @@ class Company extends Customer
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $companyNumber = null;
+
+    public function copyDataToDocument(AccountingDocument $document): void
+    {
+        parent::copyDataToDocument($document);
+        $document->setCustomerCompanyVatNumber($this->getCompanyVatNumber());
+        $document->setCustomerCompanyNumber($this->getCompanyNumber());
+    }
 
     public function getCompanyName(): ?string
     {

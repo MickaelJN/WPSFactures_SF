@@ -1,0 +1,44 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}
+  Tous les devis
+{% endblock %}
+
+{% block body %}
+  <h1>Tous les devis</h1>
+  <div class="my-3">
+    <a href="{{ path(name='quote.create') }}" class="btn btn-primary">Nouveau devis</a>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Numéro</th>
+        <th>Client</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quote in quotes %}
+        <tr>
+          <td>
+            <a href="{{ path(name='quote.edit', parameters={ id: quote.id }) }}">
+              {{ quote.reference ?: "-"  }}
+            </a>
+          </td>
+          <td>
+              {{ quote.displayCustomerData.name }}
+          </td>
+          <td>
+              {{ quote.status.label }}
+          </td>
+          <td>
+            <a href="{{ path(name='quote.edit', parameters={ id: quote.id }) }}" class="btn btn-sm btn-primary">
+              Voir
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
